@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG Stream Overlay</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1c1c1c;
+            color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .player-card {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            margin: 10px;
+            width: 150px;
+        }
+
+        .player-info {
+            margin-bottom: 10px;
+            color: #ddd;
+        }
+
+        .hp-bar, .energy-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #555;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        .hp-value, .energy-value {
+            height: 100%;
+            display: flex;
+            border-radius: 5px;
+            transition: width 0.3s ease-in-out;
+            position: relative;
+        }
+
+        .hp-value span, .energy-value span {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            line-height: 20px;
+        }
+
+        .hp-value {
+            background-color: #e74c3c;
+        }
+
+        .energy-value {
+            background-color: #3498db;
+        }
+
+        label, input {
+            display: block;
+            margin-bottom: 5px;
+            color: #ddd;
+        }
+
+        input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #555;
+            border-radius: 3px;
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Player 1 -->
+        <div class="player-card" id="player1Card">
+            <div class="player-info">
+                <h2>Player 1</h2>
+                <label for="hpInput1">HP Atual:</label>
+                <input type="number" id="hpInput1" min="0" max="100" value="100" oninput="updateBars(1)">
+                <label for="maxHpInput1">HP Máximo:</label>
+                <input type="number" id="maxHpInput1" min="1" value="100" oninput="updateBars(1)">
+                <label for="energyInput1">Energia Atual:</label>
+                <input type="number" id="energyInput1" min="0" max="100" value="100" oninput="updateBars(1)">
+                <label for="maxEnergyInput1">Energia Máxima:</label>
+                <input type="number" id="maxEnergyInput1" min="1" value="100" oninput="updateBars(1)">
+            </div>
+
+            <div class="hp-bar">
+                <div class="hp-value" id="hpPlayer1">
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="energy-bar">
+                <div class="energy-value" id="energyPlayer1"></div>
+            </div>
+        </div>
+
+        <!-- Player 2 -->
+        <div class="player-card" id="player2Card">
+            <div class="player-info">
+                <h2>Player 2</h2>
+                <label for="hpInput2">HP Atual:</label>
+                <input type="number" id="hpInput2" min="0" max="100" value="100" oninput="updateBars(2)">
+                <label for="maxHpInput2">HP Máximo:</label>
+                <input type="number" id="maxHpInput2" min="1" value="100" oninput="updateBars(2)">
+                <label for="energyInput2">Energia Atual:</label>
+                <input type="number" id="energyInput2" min="0" max="100" value="100" oninput="updateBars(2)">
+                <label for="maxEnergyInput2">Energia Máxima:</label>
+                <input type="number" id="maxEnergyInput2" min="1" value="100" oninput="updateBars(2)">
+            </div>
+
+            <div class="hp-bar">
+                <div class="hp-value" id="hpPlayer2">
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="energy-bar">
+                <div class="energy-value" id="energyPlayer2"></div>
+            </div>
+        </div>
+
+        <!-- Player 3 -->
+        <div class="player-card" id="player3Card">
+            <div class="player-info">
+                <h2>Player 3</h2>
+                <label for="hpInput3">HP Atual:</label>
+                <input type="number" id="hpInput3" min="0" max="100" value="100" oninput="updateBars(3)">
+                <label for="maxHpInput3">HP Máximo:</label>
+                <input type="number" id="maxHpInput3" min="1" value="100" oninput="updateBars(3)">
+                <label for="energyInput3">Energia Atual:</label>
+                <input type="number" id="energyInput3" min="0" max="100" value="100" oninput="updateBars(3)">
+                <label for="maxEnergyInput3">Energia Máxima:</label>
+                <input type="number" id="maxEnergyInput3" min="1" value="100" oninput="updateBars(3)">
+            </div>
+
+            <div class="hp-bar">
+                <div class="hp-value" id="hpPlayer3">
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="energy-bar">
+                <div class="energy-value" id="energyPlayer3"></div>
+            </div>
+        </div>
+
+        <!-- Player 4 -->
+        <div class="player-card" id="player4Card">
+            <div class="player-info">
+                <h2>Player 4</h2>
+                <label for="hpInput4">HP Atual:</label>
+                <input type="number" id="hpInput4" min="0" max="100" value="100" oninput="updateBars(4)">
+                <label for="maxHpInput4">HP Máximo:</label>
+                <input type="number" id="maxHpInput4" min="1" value="100" oninput="updateBars(4)">
+                <label for="energyInput4">Energia Atual:</label>
+                <input type="number" id="energyInput4" min="0" max="100" value="100" oninput="updateBars(4)">
+                <label for="maxEnergyInput4">Energia Máxima:</label>
+                <input type="number" id="maxEnergyInput4" min="1" value="100" oninput="updateBars(4)">
+            </div>
+
+            <div class="hp-bar">
+                <div class="hp-value" id="hpPlayer4">
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="energy-bar">
+                <div class="energy-value" id="energyPlayer4"></div>
+            </div>
+        </div>
+
+        <!-- Player 5 -->
+        <div class="player-card" id="player5Card">
+            <div class="player-info">
+                <h2>Player 5</h2>
+                <label for="hpInput5">HP Atual:</label>
+                <input type="number" id="hpInput5" min="0" max="100" value="100" oninput="updateBars(5)">
+                <label for="maxHpInput5">HP Máximo:</label>
+                <input type="number" id="maxHpInput5" min="1" value="100" oninput="updateBars(5)">
+                <label for="energyInput5">Energia Atual:</label>
+                <input type="number" id="energyInput5" min="0" max="100" value="100" oninput="updateBars(5)">
+                <label for="maxEnergyInput5">Energia Máxima:</label>
+                <input type="number" id="maxEnergyInput5" min="1" value="100" oninput="updateBars(5)">
+            </div>
+
+            <div class="hp-bar">
+                <div class="hp-value" id="hpPlayer5">
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="energy-bar">
+                <div class="energy-value" id="energyPlayer5"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateBars(player) {
+            const hpInput = document.getElementById(`hpInput${player}`);
+            const maxHpInput = document.getElementById(`maxHpInput${player}`);
+            const energyInput = document.getElementById(`energyInput${player}`);
+            const maxEnergyInput = document.getElementById(`maxEnergyInput${player}`);
+            const hpBar = document.getElementById(`hpPlayer${player}`);
+            const energyBar = document.getElementById(`energyPlayer${player}`);
+            const hpValue = hpInput.value;
+            const maxHpValue = maxHpInput.value;
+            const energyValue = energyInput.value;
+            const maxEnergyValue = maxEnergyInput.value;
+
+            const hpPercentage = (hpValue / maxHpValue) * 100;
+            const energyPercentage = (energyValue / maxEnergyValue) * 100;
+
+            hpBar.style.width = `${hpPercentage}%`;
+            hpBar.querySelector('span').textContent = `HP: ${hpValue}/${maxHpValue}`;
+            energyBar.style.width = `${energyPercentage}%`;
+        }
+
+        for (let i = 1; i <= 5; i++) {
+            document.getElementById(`hpInput${i}`).addEventListener('input', () => updateBars(i));
+            document.getElementById(`maxHpInput${i}`).addEventListener('input', () => updateBars(i));
+            document.getElementById(`energyInput${i}`).addEventListener('input', () => updateBars(i));
+            document.getElementById(`maxEnergyInput${i}`).addEventListener('input', () => updateBars(i));
+        }
+    </script>
+
+</body>
+</html>
